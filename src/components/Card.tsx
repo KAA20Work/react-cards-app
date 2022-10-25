@@ -1,7 +1,9 @@
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+
 import { InfoField } from './InfoField';
 import "../styles/fieldStyle.scss"
+import is from 'typescript';
 export type CardProps = {
     name: string,
     username: string,
@@ -25,49 +27,76 @@ export type CardProps = {
     }
 }
 
-export const Card  = ({...props} : CardProps) => {
+export const Card  = ({
+    name, 
+    username, 
+    email, 
+    address,
+    phone, 
+    website, 
+    company } : 
+    {
+        name: string,
+        username: string,
+        email: string,
+        address: {
+            street: string,
+            suite: string,
+            city: string,
+            zipcode: string,
+            geo: {
+                lat: string,
+                lng: string
+            }
+        },
+        phone: string,
+        website: string,
+        company: {
+            name: string,
+            catchPhrase: string,
+            bs: string
+        }
+
+    }) => {
+        const mainInform = {name, username, email, phone, website};
 
     return (
         <li className='card'>
-            
             <a className="cardContent">
-                
                 <div className="mainInfo">
                     <img className="avatar" src="https://mobimg.b-cdn.net/v3/fetch/54/54bb741fd881313da79ec7d7f648fe9d.jpeg"/>
-                    <InfoField name='Имя' value={props.name}/>
-                    <InfoField name='Имя пользователя' value={props.username}/>
-                    <InfoField name='E-mail' value={props.email}/>
-                    <InfoField name='Номер телефона' value={props.phone}/>
-                    <InfoField name='Сайт' value={props.website}/>
+                    {
+                        Object.entries(mainInform).map(([key, value]) => 
+                        <div> 
+                            <InfoField name={key} value={value} />
+                        </div>
+                        )
+                    }
                 </div>
                 <div className="moreInformation">
                     <div className="Location">
-                        <InfoField name="Город" value={props.address.city}/>
-                        <InfoField name="Улица" value={props.address.street}/>
-                        <InfoField name="Дом" value={props.address.suite}/>
-                        <InfoField name="Почтовый индекс" value={props.address.suite}/>
-                        <InfoField name="Широта" value={props.address.geo.lat}/>
-                        <InfoField name="Долгота" value={props.address.geo.lng}/>
+                        {
+                            Object.entries(address).map(([key, value]) => 
+                            <div> 
+                                <InfoField name={key}/>
+                                {
+                                    typeof value == 'string' ? value : <div>{Object.entries(address.geo)
+                                        .map(([key, value]) => <InfoField name={key} value={value} />)}</div>
+                                }
+                            </div>
+                            )
+                        }
                     </div>
                     <div className="Company">
-                        <InfoField name='Компания' value={props.company.name}/>
-                        <InfoField name='Ключевая фраза' value={props.company.catchPhrase}/>
-                        <InfoField name='Должность' value={props.company.bs}/>
+                        {
+                            Object.entries(company).map(([key, value]) => 
+                            <div> 
+                                <InfoField name={key} value={value}/>
+                            </div>
+                            )
+                        }
                     </div>
                 </div>
-                {/* <a className="locationFields">
-                        <InfoField name="Город" value={props.address.city}/>
-                        <InfoField name="Улица" value={props.address.street}/>
-                        <InfoField name="Дом" value={props.address.suite}/>
-                        <InfoField name="Почтовый индекс" value={props.address.suite}/>
-                        <InfoField name="Широта" value={props.address.geo.lat}/>
-                        <InfoField name="Долгота" value={props.address.geo.lng}/>
-                    </a>
-                    <a className="companyFields">
-                        <InfoField name='Компания' value={props.company.name}/>
-                        <InfoField name='Ключевая фраза' value={props.company.catchPhrase}/>
-                        <InfoField name='Должность' value={props.company.bs}/>
-                </a> */}
             </a>
         </li>
     );

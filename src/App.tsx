@@ -3,7 +3,7 @@ import { Card, CardProps } from './components/Card';
 
 function App() {
 
-  const [users, setUsers] = useState<Array<CardProps>>();
+  const [users, setUsers] = useState<Array<CardProps>>([]);
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
