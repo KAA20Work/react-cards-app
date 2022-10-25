@@ -1,9 +1,9 @@
 
 import React, {useEffect, useState} from "react";
 
-import { InfoField } from './InfoField';
-import "../styles/fieldStyle.scss"
-import is from 'typescript';
+import { InfoField } from '../Field/InfoField';
+import "./cardStyle.scss"
+
 export type CardProps = {
     name: string,
     username: string,
